@@ -8,9 +8,22 @@ module.exports = {
           name: 'code',
           type: 'code',
           required: true,
-          description: 'The directory which contains your task code, declared by an index.js file',
-          defaultRuntime: 'nodejs10.x',
-          runtimes: ['nodejs10.x', 'nodejs8.10']
+          description: 'The directory which contains your task code, declared by an index.js file'
+        },
+        {
+          name: 'runtime',
+          type: 'string',
+          required: true,
+          description: 'The runtime to user for the lambda',
+          default: 'nodejs10.x'
+        },
+        {
+          name: 'rate',
+          description: 'The rate at which the scheduled task runs.  Format: 1s, 1m, 1d, 2s, 2m, 2d',
+          type: 'value',
+          valueType: 'string',
+          required: true,
+          default: '1h'
         },
         {
           name: 'rate',
