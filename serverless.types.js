@@ -14,7 +14,7 @@ module.exports = {
           name: 'runtime',
           type: 'string',
           required: true,
-          description: 'The runtime to user for the lambda',
+          description: 'The runtime to use for the lambda',
           default: 'nodejs10.x'
         },
         {
