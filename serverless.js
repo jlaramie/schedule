@@ -59,7 +59,7 @@ class Schedule extends Component {
   async default(inputs = {}) {
     this.context.status('Deploying')
 
-    inputs.name = this.state.name || this.context.resourceId()
+    inputs.name = this.state.name || inputs.name || this.context.resourceId()
     inputs.region = inputs.region || 'us-east-1'
 
     inputs.code = inputs.code || {}
@@ -96,6 +96,7 @@ class Schedule extends Component {
 
     this.context.status('Deploying AWS Lambda')
     const lambdaInputs = {}
+    lambdaInputs.name = inputs.name
     lambdaInputs.handler = inputs.handler || 'index.task'
     lambdaInputs.runtime = inputs.runtime || 'nodejs10.x'
     lambdaInputs.region = inputs.region
