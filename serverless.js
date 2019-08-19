@@ -59,21 +59,29 @@ class Schedule extends Component {
   async default(inputs = {}) {
     this.context.status('Deploying')
 
-    inputs.name = this.state.name || this.context.resourceId()
+    inputs.name = this.state.name || inputs.name || this.context.resourceId()
     inputs.region = inputs.region || 'us-east-1'
 
     inputs.code = inputs.code || {}
     inputs.code.root = inputs.code.root ? path.resolve(inputs.code.root) : process.cwd()
-    if (inputs.code.src) inputs.code.src = path.join(inputs.code.root, inputs.code.src)
+    if (inputs.code.src) {
+      inputs.code.src = path.join(inputs.code.root, inputs.code.src)
+    }
 
     let exists
-    if (inputs.code.src) exists = await utils.fileExists(path.join(inputs.code.src, 'index.js'))
-    else exists = await utils.fileExists(path.join(inputs.code.root, 'index.js'))
+    // check for existence of file if user hasn't specified runtime & handler
+    if (!inputs.handler && !inputs.runtime) {
+      if (inputs.code.src) {
+        exists = await utils.fileExists(path.join(inputs.code.src, 'index.js'))
+      } else {
+        exists = await utils.fileExists(path.join(inputs.code.root, 'index.js'))
+      }
 
-    if (!exists) {
-      throw Error(
-        `No index.js file found in the directory "${inputs.code.src || inputs.code.root}"`
-      )
+      if (!exists) {
+        throw Error(
+          `No index.js file found in the directory "${inputs.code.src || inputs.code.root}"`
+        )
+      }
     }
 
     if (typeof inputs.enabled === 'undefined') {
@@ -88,7 +96,9 @@ class Schedule extends Component {
 
     this.context.status('Deploying AWS Lambda')
     const lambdaInputs = {}
-    lambdaInputs.handler = 'index.task'
+    lambdaInputs.name = inputs.name
+    lambdaInputs.handler = inputs.handler || 'index.task'
+    lambdaInputs.runtime = inputs.runtime || 'nodejs10.x'
     lambdaInputs.region = inputs.region
     lambdaInputs.timeout = inputs.timeout || 7
     lambdaInputs.memory = inputs.memory || 512

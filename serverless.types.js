@@ -8,12 +8,14 @@ module.exports = {
           name: 'code',
           type: 'code',
           required: true,
-          description: 'The directory which contains your task code, declared by an index.js file',
-          defaultRuntime: 'nodejs10.x',
-          runtimes: [
-            'nodejs10.x',
-            'nodejs8.10',
-          ]
+          description: 'The directory which contains your task code, declared by an index.js file'
+        },
+        {
+          name: 'runtime',
+          type: 'string',
+          required: true,
+          description: 'The runtime to use for the lambda',
+          default: 'nodejs10.x'
         },
         {
           name: 'rate',
@@ -21,7 +23,15 @@ module.exports = {
           type: 'value',
           valueType: 'string',
           required: true,
-          default: '1h',
+          default: '1h'
+        },
+        {
+          name: 'rate',
+          description: 'The rate at which the scheduled task runs.  Format: 1s, 1m, 1d, 2s, 2m, 2d',
+          type: 'value',
+          valueType: 'string',
+          required: true,
+          default: '1h'
         },
         {
           name: 'enabled',
@@ -59,7 +69,7 @@ module.exports = {
             'eu-north-1',
             'sa-east-1',
             'us-gov-east-1',
-            'us-gov-west-1',
+            'us-gov-west-1'
           ]
         },
         {
@@ -72,25 +82,18 @@ module.exports = {
           name: 'memory',
           type: 'value',
           valueType: 'number',
-          description: 'The memory size of the AWS Lambda function running the back-end code.  Increased memory size will result in faster performance, reduced cold-start times, but also higher cost',
+          description:
+            'The memory size of the AWS Lambda function running the back-end code.  Increased memory size will result in faster performance, reduced cold-start times, but also higher cost',
           required: true,
           default: 896,
-          options: [
-            128,
-            384,
-            512,
-            896,
-            1280,
-            2048,
-            2560,
-            3008,
-          ]
+          options: [128, 384, 512, 896, 1280, 2048, 2560, 3008]
         },
         {
           name: 'timeout',
           type: 'value',
           valueType: 'number',
-          description: 'The number of seconds which the AWS Lambda function running the back-end code can run for',
+          description:
+            'The number of seconds which the AWS Lambda function running the back-end code can run for',
           required: true,
           default: 9,
           options: [
@@ -132,10 +135,10 @@ module.exports = {
             8000,
             10000,
             12000,
-            15000,
+            15000
           ]
-        },
-      ],
+        }
+      ]
     },
     remove: {
       description: 'Removes this instance of this component',
