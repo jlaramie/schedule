@@ -104,6 +104,7 @@ class Schedule extends Component {
     lambdaInputs.memory = inputs.memory || 512
     lambdaInputs.code = inputs.code.src || inputs.code.root
     lambdaInputs.env = inputs.env || {}
+    lambdaInputs.role = inputs.role
     lambdaInputs.description = 'A function for the Schedule Component.'
     const awsLambda = await this.load('@serverless/aws-lambda')
     const lambdaOutputs = await awsLambda(lambdaInputs)
