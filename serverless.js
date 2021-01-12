@@ -114,7 +114,7 @@ class Schedule extends Component {
       credentials: this.context.credentials.aws
     })
 
-    const scheduleStatus = inputs.enabled ? 'ENABLED' : 'DISABLED'
+    const scheduleStatus = inputs.enabled && inputs.enabled !== '0' && inputs.enabled !== 'false' ? 'ENABLED' : 'DISABLED'
 
     const putRuleParams = {
       Name: inputs.name,
